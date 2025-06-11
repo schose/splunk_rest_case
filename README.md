@@ -8,4 +8,15 @@ if it's needs a restart or not.
 
 
 ```bash
-aws ec2 run-instances --cli-input-yaml file://demohost-aws/demohost.yml --user-data file://demohost-aws/demohost-cloudinit --output yaml
+aws ec2 run-instances --cli-input-yaml file://demohost-aws/demohost.yml --user-data file://demohost-aws/demohost-cloudinit.yml --output yaml
+```
+
+- ssh into the instance and clone repo
+
+```bash
+git clone https://github.com/schose/splunk_rest_case.git
+cd splunk_rest_case
+docker network create splunk
+docker-compose up -d
+```
+
