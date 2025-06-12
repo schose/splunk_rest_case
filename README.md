@@ -1,11 +1,26 @@
 # splunk_rest_case
 
-This repo should demonstrate an issue we have with Splunk REST Api. We are trying to validate a clusterbundle on cluster manager and check
-if it's needs a restart or not.
+This repo should demonstrate an issue we have with Splunk REST API. We are trying to validate a clusterbundle on cluster manager and check
+if it's needs a restart or not. Unfurtunatly the property telling us if we need to restart seems to be changing over time.
 
 
-## start aws instance as a container host ##
+```mermaid
 
+flowchart LR
+        A(["Script"])
+        A --post--> B("/services/cluster/manager/control/default/validate_bundle")
+        B --checksum--> A("Script")
+        A --checksum--> C("/services/cluster/manager/info<br>last_validated_bundle<br>last_tryrun_bundle")
+        C --last_check_restart_bundle_result--> A
+```
+
+We are sending a post to /services/cluster/manager/control/default/validate_bundle and get back `checksum` if there is a new cluser bundle. Now we are checking against `/services/cluster/manager/info` endpoint and check if the bundle is valid `last_validated_bundle.checksum` and there had been a dry_run `last_dry_run_bundle.checksum`.
+When know that we have to restart the cluster, as we change e.g. homePath for an existing index we see that `last_check_restart_bundle_result` changes over time. In lab conditions this are a few seconds, but this should not happen.
+
+## steps to reproduce
+
+
+### start aws instance as a container host ##
 
 ```bash
 aws ec2 run-instances --cli-input-yaml file://demohost-aws/demohost.yml --user-data file://demohost-aws/demohost-cloudinit.yml --output yaml
@@ -21,7 +36,6 @@ docker-compose up -d
 
 - wait for the cluster to come up
 
-## steps to reproduce
 
 - copy apps/testapp/indexes.conf to managerapps
 
