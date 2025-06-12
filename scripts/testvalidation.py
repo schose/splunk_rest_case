@@ -54,7 +54,7 @@ def get_cluster_info():
     response.raise_for_status()
     return response.json()
 
-def wait_for_bundle_validation(target_checksum, retries=6, delay=5):
+def wait_for_bundle_validation(target_checksum, retries=10, delay=0.5):
     print("Waiting for bundle to be validated...")
     for attempt in range(retries):
         info = get_cluster_info()

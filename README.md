@@ -16,7 +16,6 @@ aws ec2 run-instances --cli-input-yaml file://demohost-aws/demohost.yml --user-d
 ```bash
 git clone https://github.com/schose/splunk_rest_case.git
 cd splunk_rest_case
-docker network create splunk
 docker-compose up -d
 ```
 
@@ -70,12 +69,24 @@ output will be something like this:
 ```bash
 [ec2-user@ip-172-31-17-29 splunk_rest_case]$ python3 scripts/testvalidation.py localhost:8002
 Validating bundle...
-Bundle checksum: 32C1492DF3A2F93DA1881C71043D9865
+Bundle checksum: A83F8C3C1139EA6AFCFD6CAC4B01B260
 Waiting for bundle to be validated...
-Attempt 1/6 - Validated checksum: 32C1492DF3A2F93DA1881C71043D9865, Dry run checksum: 32C1492DF3A2F93DA1881C71043D9865, last_check_restart_bundle_result: False
-Attempt 2/6 - Validated checksum: 32C1492DF3A2F93DA1881C71043D9865, Dry run checksum: 32C1492DF3A2F93DA1881C71043D9865, last_check_restart_bundle_result: True
-Attempt 3/6 - Validated checksum: 32C1492DF3A2F93DA1881C71043D9865, Dry run checksum: 32C1492DF3A2F93DA1881C71043D9865, last_check_restart_bundle_result: True
-Attempt 4/6 - Validated checksum: 32C1492DF3A2F93DA1881C71043D9865, Dry run checksum: 32C1492DF3A2F93DA1881C71043D9865, last_check_restart_bundle_result: True
-Attempt 5/6 - Validated checksum: 32C1492DF3A2F93DA1881C71043D9865, Dry run checksum: 32C1492DF3A2F93DA1881C71043D9865, last_check_restart_bundle_result: True
-Attempt 6/6 - Validated checksum: 32C1492DF3A2F93DA1881C71043D9865, Dry run checksum: 32C1492DF3A2F93DA1881C71043D9865, last_check_restart_bundle_result: True
+Attempt 1/10 - Validated checksum: A83F8C3C1139EA6AFCFD6CAC4B01B260, Dry run checksum: A83F8C3C1139EA6AFCFD6CAC4B01B260, last_check_restart_bundle_result: False
+Attempt 2/10 - Validated checksum: A83F8C3C1139EA6AFCFD6CAC4B01B260, Dry run checksum: A83F8C3C1139EA6AFCFD6CAC4B01B260, last_check_restart_bundle_result: False
+Attempt 3/10 - Validated checksum: A83F8C3C1139EA6AFCFD6CAC4B01B260, Dry run checksum: A83F8C3C1139EA6AFCFD6CAC4B01B260, last_check_restart_bundle_result: False
+Attempt 4/10 - Validated checksum: A83F8C3C1139EA6AFCFD6CAC4B01B260, Dry run checksum: A83F8C3C1139EA6AFCFD6CAC4B01B260, last_check_restart_bundle_result: True
+Attempt 5/10 - Validated checksum: A83F8C3C1139EA6AFCFD6CAC4B01B260, Dry run checksum: A83F8C3C1139EA6AFCFD6CAC4B01B260, last_check_restart_bundle_result: True
+Attempt 6/10 - Validated checksum: A83F8C3C1139EA6AFCFD6CAC4B01B260, Dry run checksum: A83F8C3C1139EA6AFCFD6CAC4B01B260, last_check_restart_bundle_result: True
+Attempt 7/10 - Validated checksum: A83F8C3C1139EA6AFCFD6CAC4B01B260, Dry run checksum: A83F8C3C1139EA6AFCFD6CAC4B01B260, last_check_restart_bundle_result: True
+Attempt 8/10 - Validated checksum: A83F8C3C1139EA6AFCFD6CAC4B01B260, Dry run checksum: A83F8C3C1139EA6AFCFD6CAC4B01B260, last_check_restart_bundle_result: True
+Attempt 9/10 - Validated checksum: A83F8C3C1139EA6AFCFD6CAC4B01B260, Dry run checksum: A83F8C3C1139EA6AFCFD6CAC4B01B260, last_check_restart_bundle_result: True
+Attempt 10/10 - Validated checksum: A83F8C3C1139EA6AFCFD6CAC4B01B260, Dry run checksum: A83F8C3C1139EA6AFCFD6CAC4B01B260, last_check_restart_bundle_result: True
+
 ```
+
+
+### increase time..
+
+docker cp ../splunk-add-on-for-unix-and-linux_1010.tgz splunk_rest_case_clm_1:/tmp/
+
+docker exec -ti splunk_rest_case_clm_1 sudo -u splunk tar zxfv /tmp/splunk-add-on-for-unix-and-linux_1010.tgz -C /opt/splunk/etc/manager-apps/
