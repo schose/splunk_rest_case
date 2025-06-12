@@ -6,17 +6,19 @@ from requests.auth import HTTPBasicAuth
 # read parameters from command line arguments
 import sys
 if len(sys.argv) > 1:
-    splunk_user = sys.argv[1]
+    base_url = sys.argv[1]
+    if not base_url.startswith("http://") and not base_url.startswith("https://"):
+        base_url = "https://" + base_url
+else:
+    base_url = "localhost:8089"
+if len(sys.argv) > 2:
+    splunk_user = sys.argv[2]
 else:
     splunk_user = "admin"
-if len(sys.argv) > 2:
-    splunk_password = sys.argv[2]
+if len(sys.argv) > 3:
+    splunk_password = sys.argv[3]
 else:
     splunk_password = "Password01"
-if len(sys.argv) > 3:
-    base_url = sys.argv[3]
-else:
-    base_url = "https://localhost:8089"
 
 # Configuration
 #splunk_user = "admin"

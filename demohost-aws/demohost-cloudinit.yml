@@ -28,7 +28,7 @@ users:
 
 runcmd:
     - hostname
-    #- python3 -m pip install docker-compose
+    - python3 -m pip install docker-compose
     - usermod -a -G docker ec2-user
     - systemctl enable docker
     - systemctl start docker

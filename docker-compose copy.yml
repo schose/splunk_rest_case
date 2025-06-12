@@ -16,6 +16,8 @@ services:
       - SPLUNK_ROLE=splunk_cluster_master
       - SPLUNK_INDEXER_URL=idx1,idx2,idx3
       - SPLUNK_IDXC_SECRET=mypass4splunk
+    networks:
+      - splunk
 
   idx1:
     image: docker.io/splunk/splunk:9.2.5
@@ -35,6 +37,8 @@ services:
       - SPLUNK_ROLE=splunk_indexer
       - SPLUNK_CLUSTER_MASTER_URL=clm
       - SPLUNK_IDXC_SECRET=mypass4splunk
+    networks:
+      - splunk
     depends_on:
       - clm
 
@@ -56,9 +60,9 @@ services:
       - SPLUNK_ROLE=splunk_indexer
       - SPLUNK_CLUSTER_MASTER_URL=clm
       - SPLUNK_IDXC_SECRET=mypass4splunk
+
     depends_on:
       - clm
-
   idx3:
     image: docker.io/splunk/splunk:9.2.5
     ports:
@@ -77,6 +81,8 @@ services:
       - SPLUNK_ROLE=splunk_indexer
       - SPLUNK_CLUSTER_MASTER_URL=clm
       - SPLUNK_IDXC_SECRET=mypass4splunk
+    networks:
+      - splunk
     depends_on:
       - clm
 
@@ -93,3 +99,6 @@ volumes:
   idx-03-var:
   idx-03-colddb:
 
+networks:
+  splunk:
+    external: true
