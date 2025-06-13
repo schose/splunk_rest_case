@@ -6,7 +6,7 @@ hostname: demohost
 
 packages:
  - wget
- - bind-utils
+ #- bind-utils
  - git
  - rsync
 # - docker.x86_64
@@ -28,8 +28,8 @@ users:
 
 runcmd:
     - hostname
-    - python3 -m pip install docker-compose
     - usermod -a -G docker ec2-user
+    - sudo -u ec2-user python3 -m pip install docker-compose
     - systemctl enable docker
     - systemctl start docker
 
