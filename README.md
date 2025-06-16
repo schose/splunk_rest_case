@@ -14,11 +14,15 @@ flowchart LR
         C --last_check_restart_bundle_result--> A
 ```
 
-We are sending a post to /services/cluster/manager/control/default/validate_bundle and get back `checksum` if there is a new cluser bundle. Now we are checking against `/services/cluster/manager/info` endpoint and check if the bundle is valid `last_validated_bundle.checksum` and there had been a dry_run `last_dry_run_bundle.checksum`.
-When know that we have to restart the cluster, as we change e.g. homePath for an existing index we see that `last_check_restart_bundle_result` changes over time. In lab conditions this are a few seconds, but this should not happen.
+We send a POST request to `/services/cluster/manager/control/default/validate_bundle` and receive a `checksum` if a new cluster bundle is available.  
+We then compare this against the `/services/cluster/manager/info` endpoint by checking whether the bundle has already been validated (`last_validated_bundle.checksum`) and whether a dry run has been performed (`last_dry_run_bundle.checksum`).
+
+When we know that a cluster restart is required — for example, when changing the `homePath` of an existing index — we observe that the `last_check_restart_bundle_result` value changes over time.  
+In lab environments, this process only takes a few seconds, but we are uncertain how it behaves across various production environments.
 
 ## steps to reproduce
 
+These steps create a Splunk index cluster in a containerized environment, then create an index and modify its settings in a way that requires a restart of the cluster peers.
 
 ### start aws instance as a container host ##
 
@@ -98,9 +102,3 @@ Attempt 10/10 - Validated checksum: A83F8C3C1139EA6AFCFD6CAC4B01B260, Dry run ch
 
 ```
 
-
-### increase time..
-
-docker cp ../splunk-add-on-for-unix-and-linux_1010.tgz splunk_rest_case_clm_1:/tmp/
-
-docker exec -ti splunk_rest_case_clm_1 sudo -u splunk tar zxfv /tmp/splunk-add-on-for-unix-and-linux_1010.tgz -C /opt/splunk/etc/manager-apps/
