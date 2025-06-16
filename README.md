@@ -1,4 +1,4 @@
-# splunk_rest_case
+# last_check_restart_bundle_result returns an asynchronous result
 
 This repo should demonstrate an issue we have with Splunk REST API. We are trying to validate a clusterbundle on cluster manager and check
 if it's needs a restart or not. Unfurtunatly the property telling us if we need to restart seems to be changing over time.
