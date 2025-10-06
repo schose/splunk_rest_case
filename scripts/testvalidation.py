@@ -23,7 +23,7 @@ else:
 # Configuration
 #splunk_user = "admin"
 #splunk_password = "Password01"
-#base_url = "https://localhost:8089"
+#base_url = "https://localhost:8002"
 verify_ssl = False  # Equivalent to validate_certs: no
 import urllib3
 
@@ -61,13 +61,14 @@ def wait_for_bundle_validation(target_checksum, retries=10, delay=0.5):
         content = info['entry'][0]['content']
         valid_bundle = content.get('last_validated_bundle', {})
         dry_run_bundle = content.get('last_dry_run_bundle', {})
+        apply_bundle_status = content['apply_bundle_status']['status']
 
         is_valid = valid_bundle.get('is_valid_bundle') is True
         validated_checksum = valid_bundle.get('checksum')
         dry_run_checksum = dry_run_bundle.get('checksum')
         last_check_restart_bundle_result = content.get('last_check_restart_bundle_result')
 
-        print(f"Attempt {attempt + 1}/{retries} - Validated checksum: {validated_checksum}, Dry run checksum: {dry_run_checksum}, last_check_restart_bundle_result: {last_check_restart_bundle_result}")
+        print(f"Attempt {attempt + 1}/{retries} - Validated checksum: {validated_checksum}, apply_bundle_status, {apply_bundle_status}, Dry run checksum: {dry_run_checksum}, last_check_restart_bundle_result: {last_check_restart_bundle_result}")
         time.sleep(delay)
     
 def main():
