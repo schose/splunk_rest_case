@@ -10,7 +10,7 @@ if len(sys.argv) > 1:
     if not base_url.startswith("http://") and not base_url.startswith("https://"):
         base_url = "https://" + base_url
 else:
-    base_url = "localhost:8002"
+    base_url = "localhost:8089"
 if len(sys.argv) > 2:
     splunk_user = sys.argv[2]
 else:
@@ -21,9 +21,9 @@ else:
     splunk_password = "Password01"
 
 # Configuration
-splunk_user = "admin"
-splunk_password = "Password01"
-base_url = "https://localhost:8002"
+#splunk_user = "admin"
+#splunk_password = "Password01"
+#base_url = "https://localhost:8002"
 verify_ssl = False  # Equivalent to validate_certs: no
 import urllib3
 
